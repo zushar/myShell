@@ -1,6 +1,5 @@
 #include "myFunction.h"
 
-//
 void getLocation()
 {
     char location[SIZE_BUFF];
@@ -16,10 +15,10 @@ void getLocation()
         return;
     }
     printf("\033[0;34m");
-    printf("%s:%s$ ", pw->pw_name, location);
+    printf("%s@%s\033[0m$ ", pw->pw_name, location);
     printf("\033[0m");
 }
-//  יש ליצור פונקציה הקולטת מחרוזת מהמשתמש  באופן דינמי כמו שעשינו בשיעור קודם
+
 char *getInputFromUser()
 {
     char *input = (char *)malloc(SIZE_BUFF * sizeof(char));
@@ -62,6 +61,9 @@ char **splitArgument(char *str)
         token = strtok(NULL, " \t");
         i++;
     }
+        if (i > 0 && args[i-1][strlen(args[i-1])-1] == '\n') {
+            args[i-1][strlen(args[i-1])-1] = '\0';
+        }
     args[i] = NULL;
     return args;
 }
