@@ -3,6 +3,7 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <pwd.h>
 #define SIZE_BUFF 256
 char* getInputFromUser();
 /**
