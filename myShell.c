@@ -3,46 +3,22 @@
 int main()
 {
     welcome();
-    char **args = NULL;
     while (1)
     {
         getLocation();
         char *input = getInputFromUser();
-        if (input == NULL)
+        puts(input);
+        char **arguments = splitArgument(input);
+        for (int i = 0; *(arguments + i) != NULL; i++)
         {
-            printf("Error\n");
-            free(input);   
-            return 1;
+            puts(*(arguments+i));
+            // puts(arguments[i]);
         }
-        if (strcmp(input, "exit\n") == 0)
-        {
-            free(input);
-            break;
-        }
-        args = splitArgument(input);
-        if (args == NULL)
-        {
-            printf("Error\n");
-            for(int i = 0; args[i] != NULL; i++) {
-                free(args[i]);
-            }
-            free(args);
-            free(input);
-            return 1;
-        }
+
+        free(arguments);
         free(input);
-    }
-    if (args != NULL)
-    {
-        for(int i = 0; args[i] != NULL; i++)
-    {
-        printf("%s\n", args[i]);
-    }
-    printf("Goodbye\n");
-    for(int i = 0; args[i] != NULL; i++) {
-    free(args[i]);
-    }
-    free(args);
+
+        break;
     }
     return 0;
 }
