@@ -43,27 +43,24 @@ char **splitArgument(char *str)
         return NULL;
     }
     int i = 0;
-    //So token is indeed pointing to the address of the first character in the first token of str.
-    char *token = strtok(str, " \t");
-    while (token != NULL)
+    while (*str != '\0')
     {
-        args[i] = (char *)malloc((strlen(token) + 1) * sizeof(char));
+        str += strspn(str, " \t");
+        char *end = str + strcspn(str, " \t");
+        args[i] = (char *)malloc(SIZE_BUFF * sizeof(char));
         if (args[i] == NULL)
         {
             printf("Error\n");
-            for (int j = 0; j < i; j++) {
-                free(args[j]);
-            }
-            free(args);
             return NULL;
         }
-        strcpy(args[i], token);
-        token = strtok(NULL, " \t");
+        strncpy(args[i], str, end - str);
+        args[i][end - str] = '\0';
+        str = end;
         i++;
     }
-        if (i > 0 && args[i-1][strlen(args[i-1])-1] == '\n') {
-            args[i-1][strlen(args[i-1])-1] = '\0';
-        }
+    if (i > 0 && args[i-1][strlen(args[i-1])-1] == '\n') {
+        args[i-1][strlen(args[i-1])-1] = '\0';
+    }
     args[i] = NULL;
     return args;
 }
