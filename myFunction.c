@@ -15,7 +15,7 @@ void getLocation()
         return;
     }
     printf("\033[0;34m");
-    printf("%s@%s\033[0m$ ", pw->pw_name, location);
+    printf("%s@\033[0;32m%s\033[0m$ ", pw->pw_name, location);
     printf("\033[0m");
 }
 
@@ -27,9 +27,7 @@ char *getInputFromUser()
         printf("Error\n");
         return NULL;
     }
-    printf("\033[0;32m");
     fgets(input, SIZE_BUFF, stdin);
-    printf("\033[0m");
     return input;
 }
 
