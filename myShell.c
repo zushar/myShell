@@ -7,18 +7,16 @@ int main()
     {
         getLocation();
         char *input = getInputFromUser();
-        puts(input);
         char **arguments = splitArgument(input);
+        if (strcmp(arguments[0], "exit") == 0 || strncmp(arguments[0], "exit ", 5) == 0)
+            logout(input, arguments);
         for (int i = 0; *(arguments + i) != NULL; i++)
         {
-            puts(*(arguments+i));
-            // puts(arguments[i]);
+            puts(arguments[i]);
         }
 
         free(arguments);
         free(input);
-
-        break;
     }
     return 0;
 }

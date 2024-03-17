@@ -21,19 +21,34 @@ void getLocation()
 
 char *getInputFromUser()
 {
-    char *input = (char *)malloc(SIZE_BUFF * sizeof(char));
-    if (input == NULL)
+    char ch;  // Variable to hold each character as it's read
+    int size = 1;  // Size of the input string (starts at 1 for the null terminator)
+    int index = 0;  // Current position in the input string
+    char *str = (char *)malloc(size * sizeof(char));  // Allocate initial input string
+
+    // Read characters until a newline is encountered
+    while ((ch = getchar()) != '\n')
     {
-        printf("Error\n");
-        return NULL;
+        // Add the character to the input string
+        *(str + index) = ch;
+
+        // Increase the size and index
+        size++;
+        index++;
+
+        // Reallocate the input string to the new size
+        str = (char *)realloc(str, size);
     }
-    fgets(input, SIZE_BUFF, stdin);
-    return input;
+
+    // Null-terminate the input string
+    *(str + index) = '\0';
+
+    return str;  // Return the input string
 }
 
 char **splitArgument(char *str)
 {
-
+    // Allocate memory for the array of pointers to strings
     char **args = (char **)malloc(SIZE_BUFF * sizeof(char *));
     if (args == NULL)
     {
@@ -41,10 +56,13 @@ char **splitArgument(char *str)
         return NULL;
     }
     int i = 0;
-    while (*str != '\0')
+    while (*str != '\0')  // While the end of the string has not been reached
     {
+        // Skip leading whitespace
         str += strspn(str, " \t");
+        // Find the end of the word
         char *end = str + strcspn(str, " \t");
+        // Allocate memory for the word and copy it
         args[i] = (char *)malloc(SIZE_BUFF * sizeof(char));
         if (args[i] == NULL)
         {
@@ -52,13 +70,26 @@ char **splitArgument(char *str)
             return NULL;
         }
         strncpy(args[i], str, end - str);
-        args[i][end - str] = '\0';
+        args[i][end - str] = '\0';  // Null-terminate the string
+        // Move on to the next word
         str = end;
         i++;
     }
+    // If the last argument ends with a newline, replace it with a null character
     if (i > 0 && args[i-1][strlen(args[i-1])-1] == '\n') {
         args[i-1][strlen(args[i-1])-1] = '\0';
     }
+    // Null-terminate the array of arguments
     args[i] = NULL;
-    return args;
+    return args;  // Return the array of arguments
 }
+
+void logout(char *input, char **arguments)
+{
+    free(input);
+    free(arguments);
+    puts("logout");
+    exit(EXIT_SUCCESS);// exit_success = 0;
+}
+
+

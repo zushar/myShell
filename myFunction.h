@@ -31,7 +31,7 @@ char** splitArgument(char*);
 void getLocation();
 
 
-void logout(char* input);
+void logout(char* input, char **arguments);
 void echo(char** arguments);
 void cd(char **);
 void cp(char ** arguments);
