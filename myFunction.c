@@ -84,12 +84,19 @@ char **splitArgument(char *str)
     return args;  // Return the array of arguments
 }
 
-void logout(char *input, char **arguments)
+void logout(char *input)
 {
     free(input);
-    free(arguments);
     puts("logout");
     exit(EXIT_SUCCESS);// exit_success = 0;
 }
 
+void echo(char **arguments)
+{
+    while (*(++arguments))
+    {
+        printf("%s ", *arguments);
+    }
+    puts("");
+}
 
