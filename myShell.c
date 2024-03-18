@@ -9,12 +9,14 @@ int main()
         char *input = getInputFromUser();
 
         char **arguments = splitArgument(input);
-        if (strcmp(arguments[0], "exit") == 0 || strncmp(arguments[0], "exit ", 5) == 0){
+        if (strcmp(arguments[0], "exit") == 0){
             free(arguments);
             logout(input);
         } 
         else if (strcmp(arguments[0], "echo") == 0){
             echo(arguments);
+        }else if (strcmp(arguments[0], "cd") == 0){
+            cd(arguments);
         }else{
             puts("command not found");
         }
