@@ -105,10 +105,6 @@ void cd(char **path)
         printf("-myShell: cd: No argument provided\n");
         return;
     }
-    if(strcmp(path[1], "..")==0){
-        chdir("..");
-        return;
-    }
     if(strncmp(path[1], "\"", 1) == 0){
         char *dir = malloc(SIZE_BUFF * sizeof(char));
         if (dir == NULL) {
@@ -146,7 +142,6 @@ void cd(char **path)
     }
 
 }
-
 
 
 
