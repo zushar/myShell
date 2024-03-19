@@ -144,4 +144,31 @@ void cd(char **path)
         printf("-myShell: cd: %s: No such file or directory\n", path[1]);
 }
 
-
+void cp(char ** arguments){
+    if (arguments[1] == NULL || arguments[2] == NULL){
+        printf("cp: missing file operand\n");
+        return;
+    }
+    if (arguments[3] != NULL){
+        printf("cp: too many arguments\n");
+        return;
+    }
+    FILE *source, *target;
+    char ch;
+    source = fopen(arguments[1], "r");
+    if (source == NULL){
+        printf("cp: cannot stat '%s': No such file or directory\n", arguments[1]);
+        return;
+    }
+    target = fopen(arguments[2], "w");
+    if (target == NULL){
+        printf("cp: cannot create regular file '%s': No such file or directory\n", arguments[2]);
+        return;
+    }
+    while ((ch = fgetc(source)) != EOF){
+        fputc(ch, target);
+    }
+    fclose(source);
+    fclose(target);
+    printf("File copied successfully.\n");
+}
