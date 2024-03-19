@@ -20,7 +20,11 @@ int main()
         }else if (strcmp(arguments[0], "cp") == 0)
         {
             cp(arguments);
-        }else{
+        }else if (strcmp(arguments[0], "delete") == 0)
+        {
+            delete(arguments);
+        }
+        else{
             puts("command not found");
         }
         for (int i = 0; *(arguments + i) != NULL; i++)

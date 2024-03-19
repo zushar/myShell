@@ -37,5 +37,4 @@ void logout(char* input);
 void echo(char** arguments);
 void cd(char **);
 void cp(char ** arguments);
-
-
+void delete(char **path);

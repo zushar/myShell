@@ -172,3 +172,15 @@ void cp(char ** arguments){
     fclose(target);
     printf("File copied successfully.\n");
 }
+
+void delete(char **path)
+{
+    if (path[2] != NULL)
+    {
+        printf("-myShell: delete: too many arguments\n");
+        return;
+    }
+    if (unlink(path[1]) != 0)
+        printf("-myShell: delete: %s: No such file or directory\n", path[1]);
+}
+
