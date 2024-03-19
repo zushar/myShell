@@ -10,7 +10,7 @@ int main()
 
         char **arguments = splitArgument(input);
         if (strcmp(arguments[0], "exit") == 0){
-            free(arguments);
+            freeArguments(arguments);
             logout(input);
         } 
         else if (strcmp(arguments[0], "echo") == 0){
@@ -25,7 +25,7 @@ int main()
             puts(arguments[i]);
         }
 
-        free(arguments);
+        freeArguments(arguments);
         free(input);
     }
     return 0;

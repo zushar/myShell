@@ -45,42 +45,73 @@ char *getInputFromUser()
     return str;  // Return the input string
 }
 
-char **splitArgument(char *str)
-{
-    // Allocate memory for the array of pointers to strings
-    char **args = (char **)malloc(SIZE_BUFF * sizeof(char *));
-    if (args == NULL)
-    {
-        printf("Error\n");
-        return NULL;
-    }
-    int i = 0;
-    while (*str != '\0')  // While the end of the string has not been reached
-    {
-        // Skip leading whitespace
-        str += strspn(str, " \t");
-        // Find the end of the word
-        char *end = str + strcspn(str, " \t");
-        // Allocate memory for the word and copy it
-        args[i] = (char *)malloc(SIZE_BUFF * sizeof(char));
-        if (args[i] == NULL)
-        {
-            printf("Error\n");
-            return NULL;
+
+char **splitArgument(char* input) {
+    int argsCapacity = 10; // Initial capacity for argument array
+    char** args = malloc(sizeof(char*) * argsCapacity);
+    int argCount = 0;
+    const char* p = input;
+    char* arg = malloc(strlen(input) + 1); // Temp storage for the current argument
+    char* writePtr = arg;
+
+    while (*p) {
+        while (*p == ' ' && writePtr == arg) p++; // Skip leading spaces if we're at the start of a new argument
+
+        if (!*p) break; // End of string
+
+        if (*p == '"') {
+            p++; // Skip the opening quote
+            while (*p && *p != '"') {
+                if (*p == '\\' && *(p + 1) == '"') { // Handle escaped quote
+                    *writePtr++ = '"';
+                    p += 2;
+                } else {
+                    *writePtr++ = *p++;
+                }
+            }
+            if (*p) p++; // Skip the closing quote
+        } else {
+            while (*p && *p != ' ') {
+                *writePtr++ = *p++;
+            }
         }
-        strncpy(args[i], str, end - str);
-        args[i][end - str] = '\0';  // Null-terminate the string
-        // Move on to the next word
-        str = end;
-        i++;
+
+        // If we've reached a space or the end of the string, finalize the current argument.
+        if (*p == ' ' || *p == '\0') {
+            *writePtr = '\0'; // Null-terminate the argument
+
+            // Allocate just enough memory for the argument and copy it from temp storage.
+            args[argCount] = malloc(writePtr - arg + 1);
+            strcpy(args[argCount++], arg);
+
+            // Reset writePtr to start of arg for next argument
+            writePtr = arg;
+
+            if (argCount >= argsCapacity) { // Increase capacity of args array if needed
+                argsCapacity *= 2;
+                args = realloc(args, sizeof(char*) * argsCapacity);
+            }
+        }
+
+        if (*p) p++; // Move past the space or continue if not at the end
     }
-    // If the last argument ends with a newline, replace it with a null character
-    if (i > 0 && args[i-1][strlen(args[i-1])-1] == '\n') {
-        args[i-1][strlen(args[i-1])-1] = '\0';
+
+    if (writePtr != arg) { // Handle case where last argument doesn't end with a space
+        *writePtr = '\0'; // Null-terminate the argument
+        args[argCount++] = strdup(arg); // Copy the last argument
     }
-    // Null-terminate the array of arguments
-    args[i] = NULL;
-    return args;  // Return the array of arguments
+
+    free(arg); // Free the temporary storage
+    args[argCount] = NULL; // NULL-terminate the array
+    return args;
+}
+
+void freeArguments(char** args) {
+    char** p = args;
+    while (*p) {
+        free(*p++);
+    }
+    free(args);
 }
 
 void logout(char *input)
@@ -112,9 +143,9 @@ void cd(char **path)
             return;
         }
         if (path[1][0] == '\"')
-            strcpy(dir, path[1] + 1);
-        else
-            strcpy(dir, path[1]); // Skip the initial quote
+            strcpy(dir, path[1] + 1);// Skip the initial quote
+        // else
+        //     strcpy(dir, path[1]); 
         for (int i = 2; path[i] != NULL; i++)
         {
             strcat(dir, " ");
@@ -142,6 +173,5 @@ void cd(char **path)
     }
 
 }
-
 
 

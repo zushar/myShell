@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <pwd.h>
+#include <stdbool.h>
 #define SIZE_BUFF 256
 char* getInputFromUser();
 /**
@@ -28,6 +29,7 @@ char* getInputFromUser();
  *          the returned array and its elements using free().
  */
 char** splitArgument(char*);
+void freeArguments(char** args);
 void getLocation();
 
 
