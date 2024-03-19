@@ -132,46 +132,16 @@ void echo(char **arguments)
 
 void cd(char **path)
 {
-    if(path[1] == NULL){
-        printf("-myShell: cd: No argument provided\n");
+    if (path[1] == NULL) {
+        chdir(getenv("HOME"));
         return;
-    }
-    if(strncmp(path[1], "\"", 1) == 0){
-        char *dir = malloc(SIZE_BUFF * sizeof(char));
-        if (dir == NULL) {
-            printf("Failed to allocate memory\n");
-            return;
-        }
-        if (path[1][0] == '\"')
-            strcpy(dir, path[1] + 1);// Skip the initial quote
-        // else
-        //     strcpy(dir, path[1]); 
-        for (int i = 2; path[i] != NULL; i++)
-        {
-            strcat(dir, " ");
-            strcat(dir, path[i]);
-        }
-        // Remove the final quote, if present
-        int len = strlen(dir);
-        if (dir[len - 1] == '\"')
-            dir[len - 1] = '\0';
-        // Attempt to change directory
-        if (chdir(dir) != 0)
-            printf("-myShell: cd: %s: No such file or directory\n", dir);
-            
-        free(dir);
-    }
-    else
-    {
-        if(strncmp(path[1], "/", 1) == 0 && path[2] != NULL){
-        printf("-myShell: cd: Too many arguments\n");
+    }    
+    if (path[2] != NULL) {
+        printf("-myShell: cd: too many arguments\n");
         return;
-    }
-        // Attempt to change directory
-        if (chdir(path[1]) != 0)
-            printf("-myShell: cd: %s: No such file or directory\n", path[1]);
-    }
-
+    } 
+     if (chdir(path[1]) != 0)  
+        printf("-myShell: cd: %s: No such file or directory\n", path[1]);
 }
 
 
