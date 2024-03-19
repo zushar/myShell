@@ -142,7 +142,7 @@ void cd(char **path)
     }
         // Attempt to change directory
         if (chdir(path[1]) != 0)
-            printf("-myShell: cd: %s: No such file or directoryyyyyyyyy\n", path[1]);
+            printf("-myShell: cd: %s: No such file or directory\n", path[1]);
     }
 
 }
