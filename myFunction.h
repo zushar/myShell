@@ -29,7 +29,6 @@ char* getInputFromUser();
  *          the returned array and its elements using free().
  */
 char** splitArgument(char*);
-void freeArguments(char** args);
 void getLocation();
 
 

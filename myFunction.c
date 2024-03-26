@@ -45,7 +45,6 @@ char *getInputFromUser()
     return str;  // Return the input string
 }
 
-
 char **splitArgument(char* input) {
     int argsCapacity = 10; // Initial capacity for argument array
     char** args = malloc(sizeof(char*) * argsCapacity);
@@ -104,14 +103,6 @@ char **splitArgument(char* input) {
     free(arg); // Free the temporary storage
     args[argCount] = NULL; // NULL-terminate the array
     return args;
-}
-
-void freeArguments(char** args) {
-    char** p = args;
-    while (*p) {
-        free(*p++);
-    }
-    free(args);
 }
 
 void logout(char *input)

@@ -1,5 +1,12 @@
 #include "myShell.h"
 #include "myFunction.h"
+void freeArguments(char** args) {
+    char** p = args;
+    while (*p) {
+        free(*p++);
+    }
+    free(args);
+}
 int main()
 {
     welcome();
@@ -17,8 +24,7 @@ int main()
             echo(arguments);
         }else if (strcmp(arguments[0], "cd") == 0){
             cd(arguments);
-        }else if (strcmp(arguments[0], "cp") == 0)
-        {
+        }else if (strcmp(arguments[0], "cp") == 0){
             cp(arguments);
         }else if (strcmp(arguments[0], "delete") == 0)
         {
@@ -27,7 +33,7 @@ int main()
         else{
             puts("command not found");
         }
-        for (int i = 0; *(arguments + i) != NULL; i++)
+        for (int i = 0; *(arguments + i) != NULL; i++)       
         {
             puts(arguments[i]);
         }
