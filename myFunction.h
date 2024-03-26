@@ -3,9 +3,13 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <pwd.h>
-#include <stdbool.h>
-#define SIZE_BUFF 256
+# include <sys/types.h>
+#include <sys/wait.h>
+# include <pwd.h>
+#include <dirent.h>
+#include <errno.h>
+#define SIZE_BUFF 4096
+#define SIZE_HOSTNAME 256
 char* getInputFromUser();
 /**
  * Splits a string into individual tokens based on whitespace.
@@ -37,3 +41,5 @@ void echo(char** arguments);
 void cd(char **);
 void cp(char ** arguments);
 void delete(char **path);
+void get_dir();
+void SystemCall(char **arguments);

@@ -20,15 +20,16 @@ int main()
             freeArguments(arguments);
             logout(input);
         } 
-        else if (strcmp(arguments[0], "echo") == 0){
+        if (strcmp(arguments[0], "echo") == 0){
             echo(arguments);
         }else if (strcmp(arguments[0], "cd") == 0){
             cd(arguments);
         }else if (strcmp(arguments[0], "cp") == 0){
             cp(arguments);
-        }else if (strcmp(arguments[0], "delete") == 0)
-        {
+        }else if (strcmp(arguments[0], "delete") == 0){
             delete(arguments);
+        }else if (strcmp(arguments[0], "ls") == 0){
+            get_dir();
         }
         else{
             puts("command not found");

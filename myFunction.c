@@ -45,7 +45,8 @@ char *getInputFromUser()
     return str;  // Return the input string
 }
 
-char **splitArgument(char* input) {
+char **splitArgument(char* input)
+{
     int argsCapacity = 10; // Initial capacity for argument array
     char** args = malloc(sizeof(char*) * argsCapacity);
     int argCount = 0;
@@ -135,7 +136,8 @@ void cd(char **path)
         printf("-myShell: cd: %s: No such file or directory\n", path[1]);
 }
 
-void cp(char ** arguments){
+void cp(char ** arguments)
+{
     if (arguments[1] == NULL || arguments[2] == NULL){
         printf("cp: missing file operand\n");
         return;
@@ -173,5 +175,31 @@ void delete(char **path)
     }
     if (unlink(path[1]) != 0)
         printf("-myShell: delete: %s: No such file or directory\n", path[1]);
+}
+
+// Corrected the function return type from 'oid' to 'void'
+void get_dir()
+{
+    // Declare a directory stream pointer 'dir' and a directory entry pointer 'entry'
+    DIR *dir;
+    struct dirent *entry;
+
+    // Try to open the current directory
+    if((dir = opendir("./")) == NULL)
+    {
+        // If opening the directory fails, print an error message and return
+        printf("Error in opening directory\n");
+        return;
+    }
+
+    // Read the entries in the directory
+    while((entry = readdir(dir)) != NULL)
+    {
+        // Print the name of each entry
+        printf("%s\n", entry->d_name);
+    }
+
+    // Close the directory stream
+    closedir(dir);
 }
 
