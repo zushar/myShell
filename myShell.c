@@ -28,11 +28,11 @@ int main()
             cp(arguments);
         }else if (strcmp(arguments[0], "delete") == 0){
             delete(arguments);
-        }else if (strcmp(arguments[0], "ls") == 0){
+        }else if (strcmp(arguments[0], "dir") == 0){
             get_dir();
         }
         else{
-            puts("command not found");
+            SystemCall(arguments);
         }
         for (int i = 0; *(arguments + i) != NULL; i++)       
         {

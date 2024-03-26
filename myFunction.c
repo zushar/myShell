@@ -203,3 +203,24 @@ void get_dir()
     closedir(dir);
 }
 
+void SystemCall(char **arguments)
+{
+    pid_t pid = fork();
+    if (pid == -1)
+    {
+        printf("Error forking\n");
+        return;
+    }
+    if (pid == 0)
+    {
+        if (execvp(arguments[0], arguments) == -1)
+        {
+            printf("Error executing command\n");
+        }
+        exit(EXIT_FAILURE);
+    }
+    else
+    {
+        wait(NULL);
+    }
+}
