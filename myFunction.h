@@ -43,3 +43,4 @@ void cp(char ** arguments);
 void delete(char **path);
 void get_dir();
 void SystemCall(char **arguments);
+void mypipe(char **argv1, char **argv2);
