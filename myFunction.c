@@ -45,65 +45,79 @@ char *getInputFromUser()
     return str;  // Return the input string
 }
 
-char **splitArgument(char* input)
-{
-    int argsCapacity = 10; // Initial capacity for argument array
-    char** args = malloc(sizeof(char*) * argsCapacity);
+// Function to split a command-line input into an array of arguments
+char **splitArgument(char* input) {
+    int argsCapacity = 10; // Initial capacity for the arguments array
+    // Dynamically allocate space for the arguments array with initial capacity
+    char** args = (char**)malloc(sizeof(char*) * argsCapacity);
+    // Counter for the number of arguments added to the args array
     int argCount = 0;
+    // Pointer to iterate through the input string
     const char* p = input;
-    char* arg = malloc(strlen(input) + 1); // Temp storage for the current argument
+    // Allocate temporary storage for collecting characters of the current argument
+    char* arg = (char*)malloc(strlen(input) + 1);
+    // Pointer to write into the temporary storage (arg)
     char* writePtr = arg;
 
+    // Iterate over each character in the input string
     while (*p) {
-        while (*p == ' ' && writePtr == arg) p++; // Skip leading spaces if we're at the start of a new argument
+        // Skip leading spaces for a new argument
+        while (*p == ' ' && writePtr == arg) p++;
 
-        if (!*p) break; // End of string
+        if (!*p) break; // If end of string is reached, exit the loop
 
+        // If a double quote is encountered, treat it as the start of a quoted argument
         if (*p == '"') {
             p++; // Skip the opening quote
+            // Collect characters until the closing quote is encountered
             while (*p && *p != '"') {
-                if (*p == '\\' && *(p + 1) == '"') { // Handle escaped quote
+                // Handle escaped double quotes
+                if (*p == '\\' && *(p + 1) == '"') {
                     *writePtr++ = '"';
-                    p += 2;
+                    p += 2; // Skip the escape character and the quote
                 } else {
-                    *writePtr++ = *p++;
+                    *writePtr++ = *p++; // Collect the character
                 }
             }
             if (*p) p++; // Skip the closing quote
         } else {
+            // Collect characters until a space is encountered, indicating the end of the argument
             while (*p && *p != ' ') {
-                *writePtr++ = *p++;
+                *writePtr++ = *p++; // Collect the character
             }
         }
 
-        // If we've reached a space or the end of the string, finalize the current argument.
+        // Finalize the current argument if a space or the end of the string is reached
         if (*p == ' ' || *p == '\0') {
-            *writePtr = '\0'; // Null-terminate the argument
+            *writePtr = '\0'; // Null-terminate the current argument
 
-            // Allocate just enough memory for the argument and copy it from temp storage.
-            args[argCount] = malloc(writePtr - arg + 1);
+            // Allocate just enough memory for the argument and copy it from temp storage
+            args[argCount] = (char*)malloc(writePtr - arg + 1);
             strcpy(args[argCount++], arg);
 
-            // Reset writePtr to start of arg for next argument
+            // Reset the temporary storage for the next argument
             writePtr = arg;
 
-            if (argCount >= argsCapacity) { // Increase capacity of args array if needed
+            // Double the capacity of the args array if the current capacity is exceeded
+            if (argCount >= argsCapacity) {
                 argsCapacity *= 2;
-                args = realloc(args, sizeof(char*) * argsCapacity);
+                args = (char**)realloc(args, sizeof(char*) * argsCapacity);
             }
         }
 
-        if (*p) p++; // Move past the space or continue if not at the end
+        if (*p) p++; // Move past the space to the start of the next argument
     }
 
-    if (writePtr != arg) { // Handle case where last argument doesn't end with a space
-        *writePtr = '\0'; // Null-terminate the argument
+    // Add the last argument if it doesn't end with a space
+    if (writePtr != arg) {
+        *writePtr = '\0'; // Null-terminate the current argument
         args[argCount++] = strdup(arg); // Copy the last argument
     }
 
     free(arg); // Free the temporary storage
-    args[argCount] = NULL; // NULL-terminate the array
-    return args;
+    args[argCount] = NULL; // NULL-terminate the arguments array
+
+    return args; // Return the array of arguments
 }
 
 void logout(char *input)

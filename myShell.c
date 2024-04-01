@@ -32,7 +32,6 @@ int pipeCheck(char **arguments)
 }
 
 char ***splitArgumentsArray(char **arguments, int size) {
-    // ספירת מספר התת-מערכים
     int numSubArrays = 1;
     for (int i = 0; i < size; i++) {
         if (arguments[i] == NULL) {
@@ -40,38 +39,34 @@ char ***splitArgumentsArray(char **arguments, int size) {
         }
     }
 
-    // הקצאת זיכרון למערך של תת-מערכים
     char ***splitArray = (char ***)malloc((numSubArrays + 1) * sizeof(char **));
     if (splitArray == NULL) {
         perror("Memory allocation failed");
         exit(EXIT_FAILURE);
     }
 
-    // יצירת התת-מערכים
     int subArrayIndex = 0;
     int start = 0;
     int sizeOfSubArray = 0;
     for (int i = 0; i < size; i++, sizeOfSubArray++) {
         if (arguments[i] == NULL || i == size - 1) {
-            // הקצאת זיכרון לתת-מערך
+
             char **subArray = (char **)malloc((sizeOfSubArray + 1) * sizeof(char *));
-            // העתקת המחרוזות לתת-מערך
+            if (subArray == NULL) {
+                perror("Memory allocation failed");
+                exit(EXIT_FAILURE);
+            }
             for(int j = start; j <= i; j++){
                 subArray[j - start] = arguments[j];
             }
-            // סימון סוף התת-מערך
+
             subArray[sizeOfSubArray] = NULL;
-            // הוספת התת-מערך למערך של תת-מערכים
             splitArray[subArrayIndex++] = subArray;
-            // התחלת תת-מערך חדש
             start = i + 1;
             sizeOfSubArray = 0;
         }
     }
-
-    // סימון סוף המערך
     splitArray[subArrayIndex] = NULL;
-
     return splitArray;
 }
 
@@ -82,6 +77,7 @@ int main()
     {
         getLocation();
         char *input = getInputFromUser();
+
         if (input == NULL)
         {
             printf("Error: Unable to read input\n");
@@ -113,20 +109,22 @@ int main()
             wait(NULL);
             for (int i = 0; args[i] != NULL; i++)
             {
-                puts("freeing args");
                 free(args[i]);
             }
             free(args);
+            for (int i = 0; i < size; i++)
+            {
+                free(arguments[i]);
+            }
+            free(arguments);
         }
         else{
             SystemCall(arguments);
         }
-        for (int i = 0; *(arguments + i) != NULL; i++)       
+        if(isPipe == 0)
         {
-            puts(arguments[i]);
+            freeArguments(arguments);
         }
-
-        free(arguments);
         free(input);
     }
     return 0;
