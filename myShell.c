@@ -92,7 +92,16 @@ int main()
             freeArguments(arguments);
             logout(input);
         } 
-        if (strcmp(arguments[0], "echo") == 0){
+        if(isPipe){
+            char ***args = splitArgumentsArray(arguments, size);
+            mypipe(args[0], args[1]);
+            wait(NULL);
+            for (int i = 0; args[i] != NULL; i++)
+            {
+                free(args[i]);
+            }
+            free(args);
+        }else if(strcmp(arguments[0], "echo") == 0){
             if (strcmp(arguments[1], ">") == 0){
                 echorite(arguments);
             }else if (strcmp(arguments[1], ">>") == 0){
@@ -114,17 +123,7 @@ int main()
             readFile(arguments);
         }else if (strcmp(arguments[0], "wc") == 0){
             wordCount(arguments);
-        }else if(isPipe){
-            char ***args = splitArgumentsArray(arguments, size);
-            mypipe(args[0], args[1]);
-            wait(NULL);
-            for (int i = 0; args[i] != NULL; i++)
-            {
-                free(args[i]);
-            }
-            free(args);
-        }
-        else{
+        }else{
             SystemCall(arguments);
         }
         for (int i = 0; i < size; i++) {
