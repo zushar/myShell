@@ -1,20 +1,5 @@
 #include "myShell.h"
 #include "myFunction.h"
-void freeArguments(char** args) {
-    char** p = args;
-    while (*p) {
-        free(*p++);
-    }
-    free(args);
-}
-
-int argumentArraySize(char** args) {
-    int count = 0;
-    while (*args++) {
-        count++;
-    }
-    return count;
-}
 
 int pipeCheck(char **arguments)
 {
