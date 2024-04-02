@@ -315,3 +315,26 @@ void echoppend(char **arguments){
     fclose(target);
     printf("File appended successfully.\n");
 }
+
+void echorite(char **arguments){
+    if (arguments[1] == NULL){
+        printf("echorite: missing file operand\n");
+        return;
+    }
+    if (arguments[2] != NULL){
+        printf("echorite: too many arguments\n");
+        return;
+    }
+    FILE *target;
+    char ch;
+    target = fopen(arguments[1], "w");
+    if (target == NULL){
+        printf("echorite: cannot create regular file '%s': No such file or directory\n", arguments[1]);
+        return;
+    }
+    while ((ch = getchar()) != EOF){
+        fputc(ch, target);
+    }
+    fclose(target);
+    printf("File written successfully.\n");
+}

@@ -93,7 +93,13 @@ int main()
             logout(input);
         } 
         if (strcmp(arguments[0], "echo") == 0){
-            echo(arguments);
+            if (strcmp(arguments[1], ">") == 0){
+                echorite(arguments);
+            }else if (strcmp(arguments[1], ">>") == 0){
+                echoppend(arguments);
+            }else{
+                echo(arguments);
+            }
         }else if (strcmp(arguments[0], "cd") == 0){
             cd(arguments);
         }else if (strcmp(arguments[0], "cp") == 0){
