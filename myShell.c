@@ -118,12 +118,6 @@ int main()
         else{
             SystemCall(arguments);
         }
-        for (int i = 0; i < size; i++)
-        {
-            if(arguments[i] != NULL){
-            puts(arguments[i]);
-            }
-        }
         for (int i = 0; i < size; i++) {
             free(arguments[i]);
         }
