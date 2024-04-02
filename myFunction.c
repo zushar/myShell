@@ -191,7 +191,6 @@ void delete(char **path)
         printf("-myShell: delete: %s: No such file or directory\n", path[1]);
 }
 
-// Corrected the function return type from 'oid' to 'void'
 void get_dir()
 {
     // Declare a directory stream pointer 'dir' and a directory entry pointer 'entry'
@@ -262,5 +261,34 @@ void mypipe(char **argv1,char ** argv2){
         /* standard input now comes from pipe */
         execvp(argv2[0], argv2);
     }
+}
+
+void move(char **arguments){
+    if (arguments[1] == NULL || arguments[2] == NULL){
+        printf("move: missing file operand\n");
+        return;
+    }
+    if (arguments[3] != NULL){
+        printf("move: too many arguments\n");
+        return;
+    }
+    FILE *source, *target;
+    char ch;
+    source = fopen(arguments[1], "r");
+    if (source == NULL){
+        printf("move: cannot stat '%s': No such file or directory\n", arguments[1]);
+        return;
+    }
+    target = fopen(arguments[2], "w");
+    if (target == NULL){
+        printf("move: cannot create regular file '%s': No such file or directory\n", arguments[2]);
+        return;
+    }
+    while ((ch = fgetc(source)) != EOF){
+        fputc(ch, target);
+    }
+    fclose(source);
+    fclose(target);
+    printf("File moved successfully.\n");
 }
 

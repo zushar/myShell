@@ -6,8 +6,8 @@ FLAGS = -Wall -g
 run:clean myShell
 	./myShell
 
-leak:
-	valgrind --leak-check=full ./myShell
+leak: clean myShell
+	valgrind --leak-check=full --show-leak-kinds=all ./myShell
 
 myShell: myShell.o myFunction.o
 	$(CC) $(FLAGS) -o myShell myShell.o myFunction.o

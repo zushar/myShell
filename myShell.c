@@ -23,6 +23,7 @@ int pipeCheck(char **arguments)
     {
         if (strcmp(arguments[i], "|") == 0)
         {
+            free(arguments[i]);// free the pipe character because we can't free null
             arguments[i] = NULL;
             return 1;
         }
@@ -85,10 +86,8 @@ int main()
         }
 
         char **arguments = splitArgument(input);
-
         int size = argumentArraySize(arguments);
         int isPipe = pipeCheck(arguments);
-
         if (strcmp(arguments[0], "exit") == 0){
             freeArguments(arguments);
             logout(input);
@@ -103,7 +102,10 @@ int main()
             delete(arguments);
         }else if (strcmp(arguments[0], "dir") == 0){
             get_dir();
-        }else if(isPipe){
+        }else if (strcmp(arguments[0], "mv") == 0){
+            move(arguments);
+        }
+        else if(isPipe){
             char ***args = splitArgumentsArray(arguments, size);
             mypipe(args[0], args[1]);
             wait(NULL);
@@ -112,19 +114,20 @@ int main()
                 free(args[i]);
             }
             free(args);
-            for (int i = 0; i < size; i++)
-            {
-                free(arguments[i]);
-            }
-            free(arguments);
         }
         else{
             SystemCall(arguments);
         }
-        if(isPipe == 0)
+        for (int i = 0; i < size; i++)
         {
-            freeArguments(arguments);
+            if(arguments[i] != NULL){
+            puts(arguments[i]);
+            }
         }
+        for (int i = 0; i < size; i++) {
+            free(arguments[i]);
+        }
+        free(arguments);
         free(input);
     }
     return 0;
