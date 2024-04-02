@@ -45,3 +45,4 @@ void get_dir();
 void SystemCall(char **arguments);
 void mypipe(char **argv1, char **argv2);
 void move(char **arguments);
+void echoppend(char **arguments);

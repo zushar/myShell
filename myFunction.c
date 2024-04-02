@@ -293,4 +293,25 @@ void move(char **arguments){
     printf("File moved successfully.\n");
 }
 
-
+void echoppend(char **arguments){
+    if (arguments[1] == NULL){
+        printf("echoppend: missing file operand\n");
+        return;
+    }
+    if (arguments[2] != NULL){
+        printf("echoppend: too many arguments\n");
+        return;
+    }
+    FILE *target;
+    char ch;
+    target = fopen(arguments[1], "a");
+    if (target == NULL){
+        printf("echoppend: cannot create regular file '%s': No such file or directory\n", arguments[1]);
+        return;
+    }
+    while ((ch = getchar()) != EOF){
+        fputc(ch, target);
+    }
+    fclose(target);
+    printf("File appended successfully.\n");
+}
