@@ -3,7 +3,7 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <unistd.h>
-# include <sys/types.h>
+#include <sys/types.h>
 #include <sys/wait.h>
 # include <pwd.h>
 #include <dirent.h>
@@ -47,4 +47,5 @@ void mypipe(char **argv1, char **argv2);
 void move(char **arguments);
 void echoppend(char **arguments);
 void echorite(char **arguments);
-read(char **arguments);
+void readFile(char **arguments);
+void wordCount(char **arguments);

@@ -339,7 +339,7 @@ void echorite(char **arguments){
     printf("File written successfully.\n");
 }
 
-raed(char **arguments){
+void readFile(char **arguments){
     if (arguments[1] == NULL){
         printf("read: missing file operand\n");
         return;
@@ -359,3 +359,45 @@ raed(char **arguments){
     }
     fclose(source);
 }
+
+void wordCount(char **args) {
+    // Check if the correct number of arguments has been provided
+    if (args[1] == NULL || args[2] == NULL) {
+        printf("wordCount: missing file operand\n");
+        return;
+    }
+
+    // Open the file in read mode
+    FILE *file = fopen(args[2], "r");
+    if (file == NULL) {
+        // File does not exist, return without printing anything
+        return;
+    }
+
+    int count = 0;
+    if (strcmp(args[1], "-l") == 0) {
+        // Count lines
+        char ch;
+        while ((ch = fgetc(file)) != EOF) {
+            if (ch == '\n') {
+                count++;
+            }
+        }
+    } else if (strcmp(args[1], "-w") == 0) {
+        // Count words
+        char word[1024];
+        while (fscanf(file, "%1023s", word) == 1) {
+            count++;
+        }
+    } else {
+        printf("wordCount: invalid option %s\n", args[1]);
+        fclose(file);
+        return;
+    }
+
+    printf("%d\n", count);
+
+    // Close the file
+    fclose(file);
+}
+    

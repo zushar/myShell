@@ -111,7 +111,9 @@ int main()
         }else if (strcmp(arguments[0], "mv") == 0){
             move(arguments);
         }else if (strcmp(arguments[0], "read") == 0){
-            readfile(arguments);
+            readFile(arguments);
+        }else if (strcmp(arguments[0], "wc") == 0){
+            wordCount(arguments);
         }else if(isPipe){
             char ***args = splitArgumentsArray(arguments, size);
             mypipe(args[0], args[1]);
