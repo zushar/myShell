@@ -1,5 +1,20 @@
 #include "myShell.h"
 #include "myFunction.h"
+void freeArguments(char** args) {
+    char** p = args;
+    while (*p) {
+        free(*p++);
+    }
+    free(args);
+}
+
+int argumentArraySize(char** args) {
+    int count = 0;
+    while (*args++) {
+        count++;
+    }
+    return count;
+}
 
 int pipeCheck(char **arguments)
 {
@@ -89,8 +104,7 @@ int main()
             get_dir();
         }else if (strcmp(arguments[0], "mv") == 0){
             move(arguments);
-        }
-        else if(isPipe){
+        }else if(isPipe){
             char ***args = splitArgumentsArray(arguments, size);
             mypipe(args[0], args[1]);
             wait(NULL);

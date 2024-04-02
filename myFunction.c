@@ -276,19 +276,20 @@ void move(char **arguments){
     char ch;
     source = fopen(arguments[1], "r");
     if (source == NULL){
-        printf("move: cannot stat '%s': No such file or directory\n", arguments[1]);
+        printf("mv: cannot stat '%s': No such file or directory\n", arguments[1]);
         return;
     }
     target = fopen(arguments[2], "w");
     if (target == NULL){
-        printf("move: cannot create regular file '%s': No such file or directory\n", arguments[2]);
+        printf("mv: cannot create regular file '%s': No such file or directory\n", arguments[2]);
         return;
     }
     while ((ch = fgetc(source)) != EOF){
         fputc(ch, target);
     }
-    fclose(source);
-    fclose(target);
+    if (unlink(arguments[1]) != 0){
+        printf("-myShell: delete: %s: No such file or directory\n", arguments[1]);
+    }
     printf("File moved successfully.\n");
 }
 
