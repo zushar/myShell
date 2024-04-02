@@ -47,3 +47,4 @@ void mypipe(char **argv1, char **argv2);
 void move(char **arguments);
 void echoppend(char **arguments);
 void echorite(char **arguments);
+read(char **arguments);

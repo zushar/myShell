@@ -338,3 +338,24 @@ void echorite(char **arguments){
     fclose(target);
     printf("File written successfully.\n");
 }
+
+raed(char **arguments){
+    if (arguments[1] == NULL){
+        printf("read: missing file operand\n");
+        return;
+    }
+    if (arguments[2] != NULL){
+        printf("read: too many arguments\n");
+        return;
+    }
+    FILE *source;
+    char ch;
+    source = fopen(arguments[1], "r");
+    if (source == NULL){
+        return;
+    }
+    while ((ch = fgetc(source)) != EOF){
+        putchar(ch);
+    }
+    fclose(source);
+}

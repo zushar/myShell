@@ -110,6 +110,8 @@ int main()
             get_dir();
         }else if (strcmp(arguments[0], "mv") == 0){
             move(arguments);
+        }else if (strcmp(arguments[0], "read") == 0){
+            readfile(arguments);
         }else if(isPipe){
             char ***args = splitArgumentsArray(arguments, size);
             mypipe(args[0], args[1]);
