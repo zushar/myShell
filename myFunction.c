@@ -3,8 +3,7 @@
 void getLocation()
 {
     char location[SIZE_BUFF];
-//get the complete path of the current working directory including the name of the current user
-    struct passwd *pw;
+    struct passwd *pw; // struct passwd is a structure that stores user account information
     pw = getpwuid(getuid());
     if (pw == NULL) {
         printf("Error getting user name\n");
@@ -25,27 +24,26 @@ char *getInputFromUser()
     int size = 1;  // Size of the input string (starts at 1 for the null terminator)
     int index = 0;  // Current position in the input string
     char *str = (char *)malloc(size * sizeof(char));  // Allocate initial input string
-
-    // Read characters until a newline is encountered
+    if (str == NULL)
+    {
+        printf("Error allocating memory\n");
+        exit(EXIT_FAILURE);
+    }
     while ((ch = getchar()) != '\n')
     {
-
-        // Add the character to the input string
         *(str + index) = ch;
 
-        // Increase the size and index
         size++;
         index++;
 
         // Reallocate the input string to the new size
         str = (char *)realloc(str, size);
     }
-    // Null-terminate the input string
     *(str + index) = '\0';
-    return str;  // Return the input string
+    return str;  
 }
 
-// Function to split a command-line input into an array of arguments
+
 char **splitArgument(char* input) {
     int argsCapacity = 10; // Initial capacity for the arguments array
     // Dynamically allocate space for the arguments array with initial capacity
@@ -146,7 +144,7 @@ void cd(char **path)
         printf("-myShell: cd: too many arguments\n");
         return;
     } 
-     if (chdir(path[1]) != 0)  
+     if (chdir(path[1]) != 0)  // chdir() returns 0 on success, -1 on failure
         printf("-myShell: cd: %s: No such file or directory\n", path[1]);
 }
 
@@ -160,7 +158,7 @@ void cp(char ** arguments)
         printf("cp: too many arguments\n");
         return;
     }
-    FILE *source, *target;
+    FILE *source, *target; 
     char ch;
     source = fopen(arguments[1], "r");
     if (source == NULL){
@@ -304,7 +302,7 @@ void echoppend(char **arguments){
     }
     FILE *target;
     char ch;
-    target = fopen(arguments[1], "a");
+    target = fopen(arguments[1], "a");// append mode apend the new to the old and creats new file in nut exist
     if (target == NULL){
         printf("echoppend: cannot create regular file '%s': No such file or directory\n", arguments[1]);
         return;
@@ -366,14 +364,12 @@ void wordCount(char **args) {
         printf("wordCount: missing file operand\n");
         return;
     }
-
     // Open the file in read mode
     FILE *file = fopen(args[2], "r");
     if (file == NULL) {
         // File does not exist, return without printing anything
         return;
     }
-
     int count = 0;
     if (strcmp(args[1], "-l") == 0) {
         // Count lines
@@ -394,10 +390,7 @@ void wordCount(char **args) {
         fclose(file);
         return;
     }
-
     printf("%d\n", count);
-
-    // Close the file
     fclose(file);
 }
     
