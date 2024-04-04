@@ -135,12 +135,12 @@ int main()
         getLocation();
         char *input = getInputFromUser();
 
-        if (input == NULL)
+        if ((input == NULL || strcmp(input, "") == 0))
         {
             printf("Error: Unable to read input\n");
+            free(input);
             continue;
         }
-
         char **arguments = splitArgument(input);
         int size = argumentArraySize(arguments);
         int isPipe = pipeCheck(arguments);

@@ -20,7 +20,6 @@ void getLocation()
 }
 
 char *getInputFromUser()
-//bug to fix here if no input is given and enter is pressed program crashes with segmentation fault
 {
     char ch;  // Variable to hold each character as it's read
     int size = 1;  // Size of the input string (starts at 1 for the null terminator)
@@ -30,6 +29,7 @@ char *getInputFromUser()
     // Read characters until a newline is encountered
     while ((ch = getchar()) != '\n')
     {
+
         // Add the character to the input string
         *(str + index) = ch;
 
