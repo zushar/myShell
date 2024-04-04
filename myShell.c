@@ -1,5 +1,17 @@
 #include "myShell.h"
 #include "myFunction.h"
+
+/**
+ * Frees a dynamically allocated array of strings.
+ * 
+ * This function takes an array of strings as input and frees each string in the
+ * array and then frees the array itself. It is used to clean up dynamically
+ * allocated memory to prevent memory leaks.
+ * 
+ * @param args An array of strings to be freed.
+ * 
+ * @return void
+ */
 void freeArguments(char** args) {
     char** p = args;
     while (*p) {
@@ -8,6 +20,17 @@ void freeArguments(char** args) {
     free(args);
 }
 
+/**
+ * Frees a dynamically allocated array of strings.
+ * 
+ * This function takes an array of strings as input and frees each string in the
+ * array and then frees the array itself. It is used to clean up dynamically
+ * allocated memory to prevent memory leaks.
+ * 
+ * @param args An array of strings to be freed.
+ * 
+ * @return void
+ */
 int argumentArraySize(char** args) {
     int count = 0;
     while (*args++) {
@@ -16,6 +39,21 @@ int argumentArraySize(char** args) {
     return count;
 }
 
+/**
+ * Checks if a pipe operation is requested in the command.
+ * 
+ * This function takes an array of strings as input where each string is a part
+ * of the command entered by the user. It checks if any of the strings is the
+ * pipe symbol ("|") which indicates that a pipe operation is requested. If a
+ * pipe symbol is found, it frees the memory allocated for the pipe symbol, sets
+ * the pipe symbol to NULL in the array, and returns 1. If no pipe symbol is found,
+ * it returns 0.
+ * 
+ * @param args An array of strings where each string is a part of the command
+ *             entered by the user.
+ * 
+ * @return 1 if a pipe operation is requested, or 0 if no pipe operation is requested.
+ */
 int pipeCheck(char **arguments)
 {
     int i = 0;
@@ -32,6 +70,24 @@ int pipeCheck(char **arguments)
     return 0;
 }
 
+/**
+ * Splits an array of strings into sub-arrays at NULL pointers.
+ * 
+ * This function takes an array of strings and its size as input. It counts the
+ * number of NULL pointers in the array and allocates memory for that many sub-arrays
+ * plus one. It then iterates over the input array and each time it encounters a NULL
+ * pointer, it creates a new sub-array from the start of the current sub-array to the
+ * NULL pointer. Each sub-array is null-terminated and the final array of sub-arrays
+ * is also null-terminated.
+ * 
+ * @param arguments An array of strings to be split into sub-arrays.
+ * @param size The size of the input array.
+ * 
+ * @return A null-terminated array of null-terminated sub-arrays.
+ * 
+ * @note If memory allocation fails, the function prints an error message and exits
+ *       with a failure status.
+ */
 char ***splitArgumentsArray(char **arguments, int size) {
     int numSubArrays = 1;
     for (int i = 0; i < size; i++) {
@@ -135,6 +191,15 @@ int main()
     return 0;
 }
 
+/**
+ * Prints a welcome message.
+ * 
+ * This function prints a welcome message to the standard output (stdout) when
+ * the shell is started. The message includes the name of the shell, a brief
+ * description, the version number, the GitHub URL, and a friendly greeting.
+ * 
+ * @return void
+ */
 void welcome()
 {
     const char *ptexts[] = {
